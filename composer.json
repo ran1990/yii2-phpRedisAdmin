@@ -1,0 +1,33 @@
+{
+    "name": "life2016/yii2-phpredisadmin",
+    "description": "phpRedisAdmin is a simple web interface to manage Redis databases，by YII2",
+    "type": "yii2-extension",
+    "keywords": ["yii2", "extension", "redis", "web redis", "redisAdmin", "phpRedisAdmin"],
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "ran.ran",
+        "email": "503948796@qq.com"
+      }
+    ],
+    "require": {
+      "yiisoft/yii2": "~2.0.7",
+      "predis/predis": "v1.1.9",
+      "paragonie/random_compat": ">=2"
+    },
+    "autoload": {
+      "psr-4": {
+        "life2016\\phpredis\\": ""
+      }
+    },
+    "extra": {
+      "branch-alias": {
+        "dev-1.0.master": "1.0.x-dev",
+        "dev-master": "2.x-dev"
+      },
+      "asset-installer-paths": {
+        "npm-asset-library": "vendor/npm",
+        "bower-asset-library": "vendor/bower"
+      }
+    }
+}
