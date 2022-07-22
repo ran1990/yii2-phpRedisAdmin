@@ -75,14 +75,14 @@ class DefaultController extends BaseController
             unset($params['r']);
             $iframe = Yii::$app->urlManager->createUrl([$this->getUniqueId() . '/overview']);
             if ($params) {
-                $queryString = Yii::$app->request->queryString;
+                $queryString = http_build_query($params);
                 if (($index = strpos($queryString, '&')) !== false) {
-                    $route     = mb_substr($queryString, 0, $index);
+                    $route     = trim(mb_substr($queryString, 0, $index), '=');
                     $params[0] = $this->getUniqueId() . '/' . $route;
                     unset($params[$route]);
                     $iframe = Yii::$app->urlManager->createUrl($params);
                 } else {
-                    $iframe = Yii::$app->urlManager->createUrl([$this->getUniqueId() . '/' . $queryString]);
+                    $iframe = Yii::$app->urlManager->createUrl([$this->getUniqueId() . '/' . trim($queryString, '=')]);
                 }
             }
 
