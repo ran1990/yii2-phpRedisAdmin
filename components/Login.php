@@ -123,6 +123,7 @@ class Login extends Model
                     $expectedHash = $this->generateCookieHash($username);
                     if ($cookieHash === $expectedHash) {
                         // Correct username & password
+                        $userData['name'] = $username;
                         return $userData;
                     }
                 }

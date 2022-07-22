@@ -34,27 +34,6 @@ class IndexUtil
                 $class[] = 'last';
             }
 
-            // Get the number of items in the key.
-            if (!isset($server->faster) || !$server->faster) {
-                switch ($server->redis->type($fullkey)) {
-                    case 'hash':
-                        $len = $server->redis->hLen($fullkey);
-                        break;
-
-                    case 'list':
-                        $len = $server->redis->lLen($fullkey);
-                        break;
-
-                    case 'set':
-                        $len = $server->redis->sCard($fullkey);
-                        break;
-
-                    case 'zset':
-                        $len = $server->redis->zCard($fullkey);
-                        break;
-                }
-            }
-
             if (empty($name) && $name != '0') {
                 $name    = '<empty>';
                 $class[] = 'empty';
@@ -64,7 +43,7 @@ class IndexUtil
             <li<?php echo empty($class) ? '' : ' class="' . implode(' ', $class) . '"' ?>>
                 <input type="checkbox" name="checked_keys" value="<?php echo CommonUtil::format_html($fullkey) ?>"/>
                 <a href="?view&amp;s=<?php echo $server->selectId ?>&amp;d=<?php echo $server->db ?>&amp;key=<?php echo urlencode($fullkey) ?>"
-                   title="<?php echo CommonUtil::format_html($name) ?>"><?php echo CommonUtil::format_html($name) ?><?php if ($len !== false) { ?>
+                   title="<?php echo CommonUtil::format_html($fullkey) ?>"><?php echo CommonUtil::format_html($fullkey) ?><?php if ($len !== false) { ?>
                         <span class="info">(<?php echo $len ?>)</span><?php } ?></a>
             </li>
             <?php

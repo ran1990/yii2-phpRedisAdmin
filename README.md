@@ -7,7 +7,7 @@ phpRedisAdmin是一个管理Redis数据库的简单web界面,支持多个Server�
 主要是解决线上数据不能本地直接访问，特提供网页版方式，本地直连，无需开远程IP。
 
 ### 特性
-*  支持多个Server服务器、限制指定db访问
+*  支持多个Server服务器、限制用户访问指定db、server,
 *  支持用户名登录、提供伴随系统登录方式，同时提供http登录和http auth方式登录，具体详看cookie_auth参数
 *  数据的增删改查操作
 *  导入、导出操作
@@ -75,7 +75,7 @@ return [
     ]
 ];
 ```
-更多详细参数注释详看类：life2016\phpredis\components\Configs
+更多详细参数注释详看类：[life2016\phpredis\components\Configs](https://github.com/ran1990/yii2-phpRedisAdmin/blob/master/components/Configs.php)
 
 ### TODO
 
@@ -83,6 +83,8 @@ return [
 * Importing and Export JSON
 * JSON export with seperate objects based on your seperator
 
+
 #### 贡献
+
 * [erikdubbelboer](https://github.com/erikdubbelboer/phpRedisAdmin/)
 

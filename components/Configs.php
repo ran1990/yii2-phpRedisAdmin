@@ -91,11 +91,7 @@ class Configs extends BaseObject
      */
     public $hideEmptyDBs = false;
 
-    /**
-     * @var bool Uncomment to show less information and make phpRedisAdmin fire less commands to the Redis server. Recommended for a really busy Redis server.
-     */
-    public $faster = false;
-
+    
     /**
      * @var int view page size
      */
@@ -122,7 +118,7 @@ class Configs extends BaseObject
      *          'password' => 'adminpassword',
      *      ],
      *      'guest' => [
-     *          'password' => '',
+     *          'password' => '123',
      *          'servers'  => [1] // Optional list of servers this user can access.
      *      ]
      * ],
@@ -270,6 +266,11 @@ class Configs extends BaseObject
      */
     public function select($params)
     {
+        //登录授权的server
+        if (isset($params['login']['servers'])) {
+            $this->_id = current($params['login']['servers']);
+        }
+
         //switch between different servers
         if (isset($params['s']) && is_numeric($params['s']) && ($params['s'] < count($this->servers))) {
             $this->_id = $params['s'];
@@ -292,6 +293,19 @@ class Configs extends BaseObject
             $this->filter = $params['filter'];
             if (strpos($params['filter'], '*') === false) {
                 $this->filter .= '*';
+            }
+        }
+
+        //限制用户访问其他server
+        if (isset($params['login']['servers'])) {
+            if (array_search($this->_id, $params['login']['servers']) === false) {
+                die('You are not allowed to access this database.');
+            }
+
+            foreach ($this->servers as $key => $ignore) {
+                if (array_search($key, $params['login']['servers']) === false) {
+                    unset($this->servers[$key]);
+                }
             }
         }
 

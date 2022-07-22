@@ -6,19 +6,19 @@
 use yii\bootstrap\Html;
 
 header('X-Frame-Options: sameorigin');
+header('Cache-Control: private');
 list(,$assets)= Yii::$app->assetManager->publish('@life2016/phpredis/assets');
 
 $this->registerCssFile($assets.'/css/bootstrap.min.css');
 $this->registerCssFile($assets.'/css/common.css');
 $this->registerJsFile($assets.'/js/jquery.js');
-$this->registerJsFile($assets.'/js/jquery-cookie.js');
+
 ?>
 <?php $this->beginPage() ?>
     <!DOCTYPE html>
     <html lang="<?= Yii::$app->language ?>" class="h-100">
     <head>
         <meta charset="<?= Yii::$app->charset ?>">
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

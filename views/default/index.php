@@ -36,6 +36,7 @@ $this->title = $instance->host . '- phpRedisAdmin';
                     $databases = $redis->config('GET', 'databases');
                     $databases = $databases['databases'];
                 }
+
                 $info = $redis->info(); $len = strlen((string)($databases-1));
                 if ($databases > 1) { ?>
                 <div class="col-xs-6" style="padding-left:0px;">
@@ -103,4 +104,5 @@ $this->title = $instance->host . '- phpRedisAdmin';
 </div><!-- #frame -->
 <?php $this->beginBlock('js'); ?>
 <script src="<?=$assets?>/js/index.js"></script>
+<script src="<?=$assets?>/js/jquery-cookie.js"></script>
 <?php $this->endBlock(); ?>

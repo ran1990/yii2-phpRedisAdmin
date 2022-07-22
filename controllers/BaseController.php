@@ -20,19 +20,19 @@ class BaseController extends Controller
     public function beforeAction($action)
     {
         //phpRedisAdmin/default/overview
-        $this->instance = Configs::instance()->select(Yii::$app->request->getQueryParams());
-
-        $this->checkAuth();
+        $this->instance = Configs::instance();
+        $params = Yii::$app->request->getQueryParams();
+        $login = $this->checkAuth();
+        if ($login && is_array($login)) {
+            $params = \yii\helpers\ArrayHelper::merge($params, ['login' => $login]);
+        }
+        $this->instance->select($params);
 
         return parent::beforeAction($action);
     }
 
     private function checkAuth()
     {
-        if (!isset($this->instance->login)) {
-            return true;
-        }
-
         /**
          * login page:Perform auth using a standard HTML <form> submission and cookies to save login state
          * auth login: This fill will perform HTTP digest authentication. This is not the most secure form of authentication so be carefull when using this.
@@ -41,16 +41,23 @@ class BaseController extends Controller
             return $this->instance->login_url ? $this->redirect($this->instance->login_url) : $this->goBack();
         }
 
+        if (!isset($this->instance->login)) {
+            return;
+        }
+
+        $login = [];
         $model = new Login($this->instance);
         if ($this->instance->cookie_auth) {
             //ifrmae 框架，页面同时请求两个路由，限制一次即可
-            if ($this->getRoute() == $this->module->getUniqueId() . '/default/index' && !$model->authCookie()) {
+            $login = $model->authCookie();
+            if ($this->getRoute() == $this->module->getUniqueId() . '/default/index' && !$login) {
                 return $this->redirect(['login']);
             }
         } else {
-            $model->authHttpDigest();
+            $login = $model->authHttpDigest();
         }
 
+        return $login;
     }
 
 
